@@ -1,0 +1,38 @@
+<section>
+  <header>
+    Organizer: <strong>   {{dateService.date | async | moment: 'DD.MM.YYYY'}}</strong>
+    <hr/>
+  </header>
+
+  <main>
+    <div *ngIf="tasks.length; else noTasks" class="example-list">
+      <ul cdkDropList (cdkDropListDropped)="drop($event)">
+        <li class="task" *ngFor="let task of tasks" cdkDrag>
+          <span contenteditable="true" (blur)="save($event, task)"
+          >
+            {{task.title}}
+          </span>
+          <button class="btn btn-primary" (click)="removeTask(task)">Remove</button>
+        </li>
+      </ul>
+    </div>
+
+    <ng-template #noTasks>
+      <p class="text-center"> no task yet...</p>
+    </ng-template>
+  </main>
+  <footer>
+    <form (ngSubmit)="submit()" [formGroup]="form">
+      <label>
+        <input type="text" formControlName="title">
+      </label>
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+        [disabled]="form.invalid"
+      >
+        Add
+      </button>
+    </form>
+  </footer>
+</section>
